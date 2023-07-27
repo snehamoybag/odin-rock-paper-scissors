@@ -4,7 +4,7 @@ function getPlayerChoice() {
     "Type your answer: 'Rock', 'Paper' or 'Scissors'?"
   );
   const playerChoiceLowerCased = toLowerCase(playerChoice);
-  return playerChoiceLowerCased;
+  return playerChoiceLowerCased.trim(); // remove whitenspace from both ends
 }
 
 // get random index of an array
