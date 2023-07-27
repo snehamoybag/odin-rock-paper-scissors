@@ -94,8 +94,7 @@ function showResultMesaage(result, playerChoice, computerChoice) {
     default:
       message = "It is a Draw!";
   }
-
-  return message;
+  console.log(message);
 }
 
 // play a round
@@ -106,10 +105,8 @@ function playRound() {
   const score = getScore(result);
 
   showChoices(playerChoice, computerChoice);
-  showResultMesaage(result);
+  showResultMesaage(result, playerChoice, computerChoice);
   showScore(score);
 }
-
-playRound();
 
 // play 5 rounds
