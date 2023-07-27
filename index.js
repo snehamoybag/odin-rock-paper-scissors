@@ -98,5 +98,18 @@ function showResultMesaage(result, playerChoice, computerChoice) {
   return message;
 }
 
+// play a round
+function playRound() {
+  const playerChoice = getPlayerChoice();
+  const computerChoice = getComputerChoice();
+  const result = getResult(playerChoice, computerChoice);
+  const score = getScore(result);
+
+  showChoices(playerChoice, computerChoice);
+  showResultMesaage(result);
+  showScore(score);
+}
+
+playRound();
+
 // play 5 rounds
-// in the last round show the user and computer score
