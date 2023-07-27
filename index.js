@@ -54,8 +54,8 @@ function getResult(playerChoice, computerChoice) {
   return result;
 }
 
-// get score
-function getScore(result) {
+// get round score
+function getRoundScore(result) {
   let score;
   switch (result) {
     case "win":
@@ -69,11 +69,6 @@ function getScore(result) {
   }
 
   return score;
-}
-
-// show score
-function showScore(score) {
-  console.log("score: " + score);
 }
 
 // display the win or lose message on console
@@ -98,15 +93,27 @@ function showResultMesaage(result, playerChoice, computerChoice) {
 }
 
 // play a round
-function playRound() {
-  const playerChoice = getPlayerChoice();
-  const computerChoice = getComputerChoice();
+function playRound(playerChoice, computerChoice) {
   const result = getResult(playerChoice, computerChoice);
-  const score = getScore(result);
+  const roundScore = getRoundScore(result);
 
   showChoices(playerChoice, computerChoice);
   showResultMesaage(result, playerChoice, computerChoice);
-  showScore(score);
+
+  return roundScore;
 }
 
-// play 5 rounds
+// play 5 round game
+function game() {
+  let totalScore = 0;
+  for (let i = 1; i <= 5; i++) {
+    const playerChoice = getPlayerChoice();
+    const computerChoice = getComputerChoice();
+    totalScore += playRound(playerChoice, computerChoice);
+  }
+
+  console.log("Your Score: " + totalScore);
+}
+
+// run game
+game();
