@@ -53,7 +53,50 @@ function getResult(playerChoice, computerChoice) {
 
   return result;
 }
-// track score of both computer and user
+
+// get score
+function getScore(result) {
+  let score;
+  switch (result) {
+    case "win":
+      score = 1;
+      break;
+    case "lose":
+      score = -1;
+      break;
+    default:
+      score = 0;
+  }
+
+  return score;
+}
+
+// show score
+function showScore(score) {
+  console.log("score: " + score);
+}
+
 // display the win or lose message on console
+function showResultMesaage(result, playerChoice, computerChoice) {
+  let message;
+
+  switch (result) {
+    case "win":
+      message = `You Win! ${upperCaseFirstLetter(
+        playerChoice
+      )} beats ${upperCaseFirstLetter(computerChoice)}.`;
+      break;
+    case "lose":
+      message = `You Lose! ${upperCaseFirstLetter(
+        computerChoice
+      )} beats ${upperCaseFirstLetter(playerChoice)}.`;
+      break;
+    default:
+      message = "It is a Draw!";
+  }
+
+  return message;
+}
+
 // play 5 rounds
 // in the last round show the user and computer score
