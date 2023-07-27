@@ -6,4 +6,4 @@ Currently, the game propmpts the user to type any of the valid selection, then r
 
 If user types wrong selection, it throws an error and cancels the current round and procedes to next round.
 
-The Game runs for 5 rounds and displays player and computer score in the console.
+The Game runs for 5 rounds and at the end of the game displays player and computer score in the console.
