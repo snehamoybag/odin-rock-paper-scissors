@@ -31,8 +31,8 @@ function upperCaseFirstLetter(word) {
 // with first letter upper cased
 function showChoices(playerChoice, ComputerChoice) {
   console.log(
-    upperCaseFirstLetter(playerChoice),
-    upperCaseFirstLetter(ComputerChoice)
+    "You Chose: " + upperCaseFirstLetter(playerChoice),
+    "Computer Chose: " + upperCaseFirstLetter(ComputerChoice)
   );
 }
 // decide the game, win or lose
