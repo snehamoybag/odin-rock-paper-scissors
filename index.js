@@ -17,6 +17,10 @@ function getPlayerSelection(nthRound) {
     `Round ${nthRound}! Type your choice: Rock, Paper or Scissors`,
     pascalCase(getRandomSelection())
   );
+
+  if (!userInput) {
+    return; // end round if user cancels the prompt
+  }
   const playerSelection = userInput.trim().toLowerCase();
   return playerSelection;
 }
