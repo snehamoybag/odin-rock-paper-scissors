@@ -36,6 +36,23 @@ function showChoices(playerChoice, ComputerChoice) {
   );
 }
 // decide the game, win or lose
+function getResult(playerChoice, computerChoice) {
+  let result;
+
+  if (playerChoice === computerChoice) {
+    result = "draw";
+  } else if (
+    (playerChoice === "rock" && computerChoice === "scissors") ||
+    (playerChoice === "paper" && computerChoice === "rock") ||
+    (playerChoice === "scissors" && computerChoice === "paper")
+  ) {
+    result = "win";
+  } else {
+    result = "lose";
+  }
+
+  return result;
+}
 // track score of both computer and user
 // display the win or lose message on console
 // play 5 rounds
