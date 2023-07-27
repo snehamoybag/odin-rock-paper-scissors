@@ -3,7 +3,7 @@ function getPlayerChoice() {
   const playerChoice = prompt(
     "Type your answer: 'Rock', 'Paper' or 'Scissors'?"
   );
-  const playerChoiceLowerCased = toLowerCase(playerChoice);
+  const playerChoiceLowerCased = playerChoice.toLowerCase();
   return playerChoiceLowerCased.trim(); // remove whitenspace from both ends
 }
 
@@ -24,7 +24,7 @@ function getComputerChoice() {
 
 // upper case the first letter
 function upperCaseFirstLetter(word) {
-  return toUpperCase(word.slice(0, 1)) + word.slice(1);
+  return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 // show user the user and computer choice in console
