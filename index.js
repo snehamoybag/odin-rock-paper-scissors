@@ -22,6 +22,19 @@ function getComputerChoice() {
   return computerChoice;
 }
 
+// upper case the first letter
+function upperCaseFirstLetter(word) {
+  return toUpperCase(word.slice(0, 1)) + word.slice(1);
+}
+
+// show user the user and computer choice in console
+// with first letter upper cased
+function showChoices(playerChoice, ComputerChoice) {
+  console.log(
+    upperCaseFirstLetter(playerChoice),
+    upperCaseFirstLetter(ComputerChoice)
+  );
+}
 // decide the game, win or lose
 // track score of both computer and user
 // display the win or lose message on console
