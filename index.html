@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Rock Paper Scissors</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="./styles.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <!-- JAVASCRIPT -->
-    <script src="./index.js"></script>
-  </body>
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="./styles.css" rel="stylesheet" />
+</head>
+<header class="header">
+  <h1 class="title title--main">ROCK-PAPER-SCISSORS</h1>
+  <p class="subtitle">
+    Can You beat Your Computer in a Rock-Paper-Scissors Game?
+  </p>
+</header>
+<main class="main">
+  <div class="game">
+    <div class="chip__wrapper">
+      <p class="chip__choser-txt"></p>
+      <button id="rock" class="chip chip--rock">
+        <i class=""></i>
+        <p class="chip__name | sr-only">Rock</p>
+      </button>
+    </div>
+    <div class="chip__wrapper">
+      <p class="chip__choser-txt"></p>
+      <button id="paper" class="chip chip--paper">
+        <i class=""></i>
+        <p class="chip__name | sr-only">Paper</p>
+      </button>
+    </div>
+    <div class="chip__wrapper">
+      <p class="chip__choser-txt"></p>
+      <button id="scissors" class="chip chip--scissors">
+        <i class=""></i>
+        <p class="chip__name | sr-only">Scissors</p>
+      </button>
+    </div>
+  </div>
+  <div class="results">
+    <div class="results__info">
+      <p>
+        Round <span id="round-number"><!-- Show round number --></span>
+      </p>
+      <h2 id="winner-txt"><!-- show you win or lose --></h2>
+      <p id="how-winner-txt"><!-- show which chip wins --></p>
+    </div>
+    <div class="results__scores">
+      <p><span class="results__score-ponts"></span></p>
+      <p><span class="results__score-ponts"></span></p>
+    </div>
+    <button id="play-next-round" class="btn btn--white">Next Round</button>
+  </div>
+</main>
+<footer class="footer">
+  <p>Build by Snehamoy Bag</p>
+  <p>Project from The Odin Project</p>
+</footer>
+
+<body>
+  <!-- JAVASCRIPT -->
+  <script src="./index.js"></script>
+</body>
+
 </html>
