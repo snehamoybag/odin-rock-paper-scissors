@@ -1,3 +1,7 @@
+:root {
+  --ff-primary: font-family: 'Roboto', sans-serif;
+}
+
 *,
 *::before,
 *::after {
@@ -8,4 +12,8 @@
 img {
   max-width: 100%;
   display: block;
+}
+
+body {
+  font-family: var(--ff-primary);
 }
