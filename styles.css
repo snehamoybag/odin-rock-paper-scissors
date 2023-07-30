@@ -5,6 +5,13 @@
   --fw-regular: 400;
   --fw-bold: 700;
   --fw-extra-bold: 900;
+
+  --clr-primary-400: hsl(180, 47%, 56%);
+  --clr-secondary-400: hsl(223, 49%, 49%);
+  --clr-accent-400: hsl(355, 87%, 66%);
+  
+  --clr-neutral-200: hsl(0, 0%, 92%);
+  --clr-neutral-700: hsla(0, 0%, 10%);
 }
 
 *,
