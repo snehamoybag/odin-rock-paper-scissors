@@ -13,6 +13,9 @@
   --clr-neutral-200: hsl(0, 0%, 92%);
   --clr-neutral-600: hsla(0, 0%, 25%);
   --clr-neutral-700: hsla(0, 0%, 10%);
+
+  --global-block-padding: 3em;
+  --global-side-padding: 1em;
 }
 
 *,
@@ -38,4 +41,19 @@ h2,
 h3 {
   color: var(--clr-neutral-700);
   font-weight: var(--fw-extra-bold);
+}
+
+.header {
+  padding: var(--global-block-padding) var(--global-side-padding);
+  text-align: center;
+}
+
+.header__title {
+  font-size: 1.75rem;
+  letter-spacing: -0.015em;
+}
+
+.header__description {
+  margin-top: 0.25rem;
+  padding: 0 1em;
 }
