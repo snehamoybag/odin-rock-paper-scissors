@@ -1,5 +1,5 @@
 :root {
-  --ff-primary: font-family: 'Roboto', sans-serif;
+  --ff-primary: "Roboto", sans-serif;
 
   --fw-light: 300;
   --fw-regular: 400;
@@ -9,7 +9,7 @@
   --clr-primary-400: hsl(223, 49%, 49%);
   --clr-secondary-400: hsl(180, 47%, 56%);
   --clr-accent-400: hsl(355, 87%, 66%);
-  
+
   --clr-neutral-200: hsl(0, 0%, 92%);
   --clr-neutral-600: hsla(0, 0%, 25%);
   --clr-neutral-700: hsla(0, 0%, 10%);
@@ -31,4 +31,11 @@ body {
   font-family: var(--ff-primary);
   background-color: var(--clr-neutral-200);
   color: var(--clr-neutral-600);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--clr-neutral-700);
+  font-weight: var(--fw-extra-bold);
 }
