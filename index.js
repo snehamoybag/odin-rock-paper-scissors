@@ -149,6 +149,16 @@ function closeAllChips(transitioningEl) {
   }
 }
 
+// hide non-selected chips
+function hideExtraChips(playerEl, ComputerEl) {
+  const allChips = document.querySelectorAll(".chip");
+  allChips.forEach((chip) => {
+    if (chip !== playerEl && chip !== ComputerEl) {
+      chip.parentNode.classList.add("hidden");
+    }
+  });
+}
+
 // show player and computer selected chips
 function showSelectedChips(playerEl, computerEl) {
   const playerElWrapper = playerEl.parentNode;
@@ -157,12 +167,13 @@ function showSelectedChips(playerEl, computerEl) {
 
   playerElWrapper.addEventListener("transitionend", () => {
     computerElWrapper.classList.remove("hidden");
+    hideExtraChips(playerEl, computerEl);
 
     setTimeout(() => {
       gameBoard.classList.remove("animate-closing");
       playerElWrapper.classList.add("animate-player-selection");
       computerElWrapper.classList.add("animate-computer-selection");
-    }, 500 /* ms */);
+    }, 500 /* 500ms delay */);
   });
 }
 
