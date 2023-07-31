@@ -124,6 +124,12 @@ function showEndGameMessage(playerScore, computerScore) {
   console.log(message);
 }
 
+// add computer selected elements styles
+function addComputerSelectedElStyles(selection, selectionEl) {
+  selectionEl.classList.add(`chip--${selection}`);
+  selectionEl.querySelector(".chip__name").textContent = pascalCase(selection);
+}
+
 // animate chips closing
 function closeAllChips(transitioningEl) {
   const gameBoard = document.querySelector("#game");
@@ -144,6 +150,8 @@ function showSelectedChips(playerEl, computerEl) {
   const gameBoard = document.querySelector("#game");
 
   playerElWrapper.addEventListener("transitionend", () => {
+    computerElWrapper.classList.remove("hidden");
+
     setTimeout(() => {
       gameBoard.classList.remove("animate-closing");
       playerElWrapper.classList.add("animate-player-selection");
@@ -158,13 +166,14 @@ function playRound() {
   const playerSelection = this.dataset.chip;
   const playerSelectionEl = this;
   const computerSelection = getRandomSelection();
-  const computerSelectionEl = document.querySelector(
-    `[data-chip=${computerSelection}]`
-  );
+  const computerSelectionEl = document.querySelector("#computer-chip");
 
   // remove eventListener from all chip after the first click
   allChips.forEach((chip) => chip.removeEventListener("click", playRound));
+
+  addComputerSelectedElStyles(computerSelection, computerSelectionEl);
   closeAllChips();
+  showSelectedChips(playerSelectionEl, computerSelectionEl);
 }
 
 // run game with number of times
