@@ -1,3 +1,27 @@
+// TODO
+
+// update getPlayerSelection function
+// 1. add event listeners to all the chips
+// 2. clicking any button will trigger closing animation
+// 3. remove click event from all the all the button
+// 4. return the clicked elements id as the playerSelection from the function
+
+// when all chips are in center, generate computer choice
+// remove the extra chip
+// move the player selection to left
+// move the computer selection to right
+
+// generate result
+// after few miliseconds
+// display the winner chip effect and round results and scores
+
+// play next round button will animate 2 buttons to close
+// will start new round with 3 chips
+
+// a popup will be shown at the end of 5th round
+// with game result
+// and a button to play a new game
+
 // uppercase the first letter of a word
 function pascalCase(word) {
   return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
@@ -156,4 +180,5 @@ function game() {
 }
 
 // run game on page load
-game();
+// game();
+//
