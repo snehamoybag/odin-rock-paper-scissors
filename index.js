@@ -124,7 +124,13 @@ function showEndGameMessage(playerScore, computerScore) {
   console.log(message);
 }
 
-// add computer selected elements styles
+// add player selected chip styles
+function addPlayerSelectedElStyles(selectionEl) {
+  const text = "You Chose";
+  selectionEl.previousElementSibling.textContent = text;
+}
+
+// add computer selected chip styles
 function addComputerSelectedElStyles(selection, selectionEl) {
   selectionEl.classList.add(`chip--${selection}`);
   selectionEl.querySelector(".chip__name").textContent = pascalCase(selection);
@@ -171,6 +177,7 @@ function playRound() {
   // remove eventListener from all chip after the first click
   allChips.forEach((chip) => chip.removeEventListener("click", playRound));
 
+  addPlayerSelectedElStyles(playerSelectionEl);
   addComputerSelectedElStyles(computerSelection, computerSelectionEl);
   closeAllChips();
   showSelectedChips(playerSelectionEl, computerSelectionEl);
