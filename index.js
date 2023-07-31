@@ -35,20 +35,6 @@ function getRandomSelection() {
   return randomChoice;
 }
 
-// get player choice
-function getPlayerSelection(nthRound) {
-  const userInput = prompt(
-    `Round ${nthRound}! Type your choice: Rock, Paper or Scissors`,
-    pascalCase(getRandomSelection())
-  );
-
-  if (!userInput) {
-    return; // end round if user cancels the prompt
-  }
-  const playerSelection = userInput.trim().toLowerCase();
-  return playerSelection;
-}
-
 // check if user typed input is valid
 function validatePlayerSelection(playerSelection) {
   let isValid;
@@ -115,22 +101,6 @@ function showError(bool) {
   }
 }
 
-// play a round
-function playRound(playerSelection, computerSelection) {
-  const isPlayerSelectionValid = validatePlayerSelection(playerSelection);
-  const result = getRoundResult(playerSelection, computerSelection);
-
-  if (!isPlayerSelectionValid) {
-    showError(isPlayerSelectionValid);
-    return; // end round
-  }
-
-  showSelections(playerSelection, computerSelection);
-  showRoundResults(result, playerSelection, computerSelection);
-
-  return result;
-}
-
 // show scores of player and comouter
 function showScores(playerScore, computerScore) {
   console.log(
@@ -154,31 +124,55 @@ function showEndGameMessage(playerScore, computerScore) {
   console.log(message);
 }
 
+// animate chips closing
+function closeAllChips(transitioningEl) {
+  const gameBoard = document.querySelector("#game");
+
+  if (transitioningEl) {
+    transitioningEl.addEventListener("transitionend", () => {
+      gameBoard.classList.add("animate-closing");
+    });
+  } else {
+    gameBoard.classList.add("animate-closing");
+  }
+}
+
+// show player and computer selected chips
+function showSelectedChips(playerEl, computerEl) {
+  const playerElWrapper = playerEl.parentNode;
+  const computerElWrapper = computerEl.parentNode;
+  const gameBoard = document.querySelector("#game");
+
+  playerElWrapper.addEventListener("transitionend", () => {
+    setTimeout(() => {
+      gameBoard.classList.remove("animate-closing");
+      playerElWrapper.classList.add("animate-player-selection");
+      computerElWrapper.classList.add("animate-computer-selection");
+    }, 500 /* ms */);
+  });
+}
+
+// play a round
+function playRound() {
+  const allChips = document.querySelectorAll(".chip");
+  const playerSelection = this.dataset.chip;
+  const playerSelectionEl = this;
+  const computerSelection = getRandomSelection();
+  const computerSelectionEl = document.querySelector(
+    `[data-chip=${computerSelection}]`
+  );
+
+  // remove eventListener from all chip after the first click
+  allChips.forEach((chip) => chip.removeEventListener("click", playRound));
+  closeAllChips();
+}
+
 // run game with number of times
 function game() {
-  const numberOfRounds = 5;
-  let playerScore = 0;
-  let computerScore = 0;
+  const allChips = document.querySelectorAll(".chip");
 
-  for (let round = 1; round <= numberOfRounds; round++) {
-    const playerSelection = getPlayerSelection(round);
-    const computerSelection = getRandomSelection();
-    const roundResult = playRound(playerSelection, computerSelection);
-
-    switch (roundResult) {
-      case "win":
-        playerScore += 1;
-        break;
-      case "lose":
-        computerScore += 1;
-        break;
-    }
-  }
-
-  showScores(playerScore, computerScore);
-  showEndGameMessage(playerScore, computerScore);
+  allChips.forEach((chip) => chip.addEventListener("click", playRound));
 }
 
 // run game on page load
-// game();
-//
+game();
