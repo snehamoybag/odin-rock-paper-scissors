@@ -1,0 +1,159 @@
+:root {
+  --ff-primary: "Roboto", sans-serif;
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-bold: 700;
+  --fw-extra-bold: 900;
+
+  --clr-primary-400: hsl(223, 49%, 49%);
+  --clr-secondary-400: hsl(180, 47%, 56%);
+  --clr-accent-400: hsl(355, 87%, 66%);
+
+  --clr-neutral-100: hsl(0, 0%, 100%);
+  --clr-neutral-200: hsl(0, 0%, 92%);
+  --clr-neutral-600: hsl(0, 0%, 25%);
+  --clr-neutral-700: hsl(0, 0%, 10%);
+
+  --global-block-padding: 3em;
+  --global-side-padding: 1em;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+body {
+  font-family: var(--ff-primary);
+  background-color: var(--clr-neutral-200);
+  color: var(--clr-neutral-600);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--clr-neutral-700);
+  font-weight: var(--fw-extra-bold);
+}
+
+.header {
+  padding: var(--global-block-padding) var(--global-side-padding);
+  text-align: center;
+}
+
+.header__title {
+  font-size: 1.75rem;
+  letter-spacing: -0.015em;
+}
+
+.header__description {
+  margin-top: 0.25rem;
+  padding: 0 1em;
+}
+
+.main {
+  padding: 0 var(--global-side-padding);
+}
+
+.game {
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  outline: 1px solid red;
+  margin: 0 auto;
+  position: relative;
+}
+
+.game::before {
+  content: "";
+  display: block;
+  width: 5px;
+  aspect-ratio: 1/1;
+  background-color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  border-radius: 50%;
+}
+
+.chip {
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-neutral-100);
+  border: 15px solid var(--border-clr);
+  border-radius: 50%;
+  box-shadow: -7px 5px 10px -5px hsla(0, 0%, 0%, 0.1);
+}
+
+.chip:hover {
+  box-shadow: unset;
+}
+
+.chip:active {
+  border-width: 16px;
+  box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.1) inset;
+}
+
+/* child of .chip__wrapper */
+.chip--rock {
+  --border-clr: var(--clr-accent-400);
+}
+
+.chip--paper {
+  --border-clr: var(--clr-secondary-400);
+}
+
+.chip--scissors {
+  --border-clr: var(--clr-primary-400);
+}
+/* parent of .chip */
+.chip__wrapper {
+  --size: 120px;
+  --radius: 110px;
+
+  width: var(--size);
+  aspect-ratio: 1/1;
+  /* place them in cnter */
+  position: absolute;
+  top: calc(50% - (var(--size) / 2));
+  left: calc(50% - (var(--size) / 2));
+  /* position of chips from center */
+  transform: translate(
+    calc(cos(var(--degrees)) * var(--radius)),
+    calc(sin(var(--degrees)) * var(--radius))
+  );
+  transition: transform 400ms linear;
+}
+
+.chip__wrapper:nth-of-type(1) {
+  --degrees: 210deg;
+}
+
+.chip__wrapper:nth-of-type(2) {
+  --degrees: 330deg;
+}
+
+.chip__wrapper:nth-of-type(3) {
+  --degrees: 90deg;
+}
+
+/* animation/transition utility classes */
+.animate-opening.player-selection {
+  --degress: 0deg;
+}
+
+.animate-opening.computer-selection {
+  --degrees: 180deg;
+}
+
+.animate-closing .chip__wrapper {
+  --radius: 0;
+}
