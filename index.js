@@ -125,15 +125,21 @@ function showEndGameMessage(playerScore, computerScore) {
 }
 
 // add player selected chip styles
-function addPlayerSelectedElStyles(selectionEl) {
-  const text = "You Chose";
-  selectionEl.previousElementSibling.textContent = text;
-}
+// function addPlayerSelectedElStyles(selectionEl) { }
 
 // add computer selected chip styles
 function addComputerSelectedElStyles(selection, selectionEl) {
   selectionEl.classList.add(`chip--${selection}`);
   selectionEl.querySelector(".chip__name").textContent = pascalCase(selection);
+}
+
+// add choser texts when chosen chips are finished transitioning
+function addChoserTexts(playerEl, computerEl) {
+  const playerElWrapper = playerEl.parentNode;
+  playerElWrapper.addEventListener("transitionend", () => {
+    playerEl.previousElementSibling.textContent = "You Chose";
+    computerEl.previousElementSibling.textContent = "Computer Chose";
+  });
 }
 
 // animate chips closing
@@ -165,6 +171,7 @@ function showSelectedChips(playerEl, computerEl) {
   const computerElWrapper = computerEl.parentNode;
   const gameBoard = document.querySelector("#game");
 
+  // after chips are closed
   playerElWrapper.addEventListener("transitionend", () => {
     computerElWrapper.classList.remove("hidden");
     hideExtraChips(playerEl, computerEl);
@@ -173,6 +180,7 @@ function showSelectedChips(playerEl, computerEl) {
       gameBoard.classList.remove("animate-closing");
       playerElWrapper.classList.add("animate-player-selection");
       computerElWrapper.classList.add("animate-computer-selection");
+      addChoserTexts(playerEl, computerEl);
     }, 500 /* 500ms delay */);
   });
 }
@@ -188,7 +196,6 @@ function playRound() {
   // remove eventListener from all chip after the first click
   allChips.forEach((chip) => chip.removeEventListener("click", playRound));
 
-  addPlayerSelectedElStyles(playerSelectionEl);
   addComputerSelectedElStyles(computerSelection, computerSelectionEl);
   closeAllChips();
   showSelectedChips(playerSelectionEl, computerSelectionEl);
