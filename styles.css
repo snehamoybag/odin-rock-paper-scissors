@@ -158,6 +158,11 @@ h3 {
   --radius: 0;
 }
 
+/* UTILITY CLASSES */
 .hidden {
   display: none;
+}
+
+.visually-hidden {
+  visibility: hidden;
 }

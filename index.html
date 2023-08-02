@@ -52,13 +52,13 @@
         </button>
       </div>
     </div>
-    <div class="results">
+    <div id="results" class="results | visually-hidden">
       <div class="results__info">
         <p>
           Round <span id="round-number"><!-- Show round number --></span>
         </p>
-        <h2 id="winner-txt"><!-- show you win or lose --></h2>
-        <p id="how-winner-txt"><!-- show which chip wins --></p>
+        <h2 id="result-title"><!-- show you win or lose --></h2>
+        <p id="result-description"><!-- show which chip wins --></p>
       </div>
       <div class="results__scores">
         <p>
@@ -70,7 +70,9 @@
           <span id="computer-score" class="results__score-ponts"></span>
         </p>
       </div>
-      <button id="play-next-round" class="btn btn--white">Next Round</button>
+      <button id="next-round-button" class="btn btn--white">
+        Next Round
+      </button>
     </div>
   </main>
   <footer class="footer">
