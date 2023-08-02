@@ -1,3 +1,27 @@
+// TODO
+
+// update getPlayerSelection function
+// 1. add event listeners to all the chips
+// 2. clicking any button will trigger closing animation
+// 3. remove click event from all the all the button
+// 4. return the clicked elements id as the playerSelection from the function
+
+// when all chips are in center, generate computer choice
+// remove the extra chip
+// move the player selection to left
+// move the computer selection to right
+
+// generate result
+// after few miliseconds
+// display the winner chip effect and round results and scores
+
+// play next round button will animate 2 buttons to close
+// will start new round with 3 chips
+
+// a popup will be shown at the end of 5th round
+// with game result
+// and a button to play a new game
+
 // uppercase the first letter of a word
 function pascalCase(word) {
   return word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase();
@@ -11,12 +35,62 @@ function getRandomSelection() {
   return randomChoice;
 }
 
+// check if user typed input is valid
+function validatePlayerSelection(playerSelection) {
+  let isValid;
+  switch (playerSelection) {
+    case "rock":
+    case "paper":
+    case "scissors":
+      isValid = true;
+      break;
+    default:
+      isValid = false;
+  }
+
+  return isValid;
+}
+
 // show user choice and computer choice
 function showSelections(playerSelection, computerSelection) {
   console.log(
     `You Chose : ${pascalCase(playerSelection)} | `,
     `The Computer Chose : ${pascalCase(computerSelection)}`
   );
+}
+
+// get a rounds result
+function getRoundResult(playerSelection, computerSelection) {
+  if (playerSelection === computerSelection) {
+    return "draw";
+  } else if (
+    (playerSelection === "rock" && computerSelection === "scissors") ||
+    (playerSelection === "paper" && computerSelection === "rock") ||
+    (playerSelection === "scissors" && computerSelection === "paper")
+  ) {
+    return "win";
+  } else {
+    return "lose";
+  }
+}
+
+// show a rounds results
+function showRoundResults(result, playerSelection, computerSelection) {
+  let message;
+
+  if (result === "win") {
+    message = `You Win! ${pascalCase(playerSelection)} beats ${pascalCase(
+      computerSelection
+    )}`;
+  } else if (result === "lose") {
+    message = `You Lose! ${pascalCase(computerSelection)} beats ${pascalCase(
+      playerSelection
+    )}`;
+  } else {
+    message = "It is a Draw!";
+  }
+
+  console.log(message);
 }
 
 // show error message
@@ -111,45 +185,6 @@ function showSelectedChips(playerEl, computerEl) {
   });
 }
 
-// get a rounds result
-function getRoundResult(playerSelection, computerSelection) {
-  if (playerSelection === computerSelection) {
-    return "draw";
-  } else if (
-    (playerSelection === "rock" && computerSelection === "scissors") ||
-    (playerSelection === "paper" && computerSelection === "rock") ||
-    (playerSelection === "scissors" && computerSelection === "paper")
-  ) {
-    return "win";
-  } else {
-    return "lose";
-  }
-}
-
-// show a rounds results
-function showRoundResults(
-  result,
-  playerSelection,
-  computerSelection,
-  selectionEl
-) {
-  let message;
-
-  if (result === "win") {
-    message = `You Win! ${pascalCase(playerSelection)} beats ${pascalCase(
-      computerSelection
-    )}`;
-  } else if (result === "lose") {
-    message = `You Lose! ${pascalCase(computerSelection)} beats ${pascalCase(
-      playerSelection
-    )}`;
-  } else {
-    message = "It is a Draw!";
-  }
-
-  console.log(message);
-}
-
 // play a round
 function playRound() {
   const allChips = document.querySelectorAll(".chip");
@@ -157,26 +192,20 @@ function playRound() {
   const playerSelectionEl = this;
   const computerSelection = getRandomSelection();
   const computerSelectionEl = document.querySelector("#computer-chip");
-  const result = getRoundResult(playerSelection, computerSelection);
 
-  console.log(this);
+  // remove eventListener from all chip after the first click
+  allChips.forEach((chip) => chip.removeEventListener("click", playRound));
+
   addComputerSelectedElStyles(computerSelection, computerSelectionEl);
   closeAllChips();
   showSelectedChips(playerSelectionEl, computerSelectionEl);
-  showRoundResults(
-    playerSelection,
-    computerSelection,
-    result,
-    computerSelectionEl
-  );
 }
-
-// tracks resu0
 
 // run game with number of times
 function game() {
-  let nthRound = 1;
-  playRound();
+  const allChips = document.querySelectorAll(".chip");
+
+  allChips.forEach((chip) => chip.addEventListener("click", playRound));
 }
 
 // run game on page load

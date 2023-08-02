@@ -146,14 +146,18 @@ h3 {
 }
 
 /* animation/transition utility classes */
-.animate-opening.player-selection {
-  --degress: 0deg;
+.animate-player-selection.chip__wrapper {
+  --degrees: 180deg;
 }
 
-.animate-opening.computer-selection {
-  --degrees: 180deg;
+.animate-computer-selection.chip__wrapper {
+  --degrees: 0deg;
 }
 
 .animate-closing .chip__wrapper {
   --radius: 0;
+}
+
+.hidden {
+  display: none;
 }
