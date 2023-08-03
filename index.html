@@ -1,87 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Rock Paper Scissors</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./styles.css" rel="stylesheet" />
+  </head>
 
-<head>
-  <title>Rock Paper Scissors</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,300&display=swap"
-    rel="stylesheet" />
-  <!-- CSS -->
-  <link href="./styles.css" rel="stylesheet" />
-</head>
-
-<body>
-  <header class="header">
-    <h1 class="header__title">ROCK-PAPER-SCISSORS</h1>
-    <p class="header__description">
-      Can You beat Your Computer in a Rock-Paper-Scissors Game?
-    </p>
-  </header>
-  <main class="main">
-    <div id="game" class="game">
-      <div class="chip__wrapper">
-        <p class="chip__choser-txt"></p>
-        <button data-chip="rock" class="chip chip--rock">
-          <i class=""></i>
-          <p class="chip__name | sr-only">Rock</p>
-        </button>
-      </div>
-      <div class="chip__wrapper">
-        <p class="chip__choser-txt"></p>
-        <button data-chip="paper" class="chip chip--paper">
-          <i class=""></i>
-          <p class="chip__name | sr-only">Paper</p>
-        </button>
-      </div>
-      <div class="chip__wrapper">
-        <p class="chip__choser-txt"></p>
-        <button data-chip="scissors" class="chip chip--scissors">
-          <i class=""></i>
-          <p class="chip__name | sr-only">Scissors</p>
-        </button>
-      </div>
-      <div class="chip__wrapper | hidden">
-        <p class="chip__choser-txt"></p>
-        <button id="computer-chip" class="chip">
-          <i class=""></i>
-          <p class="chip__name | sr-only"></p>
-        </button>
-      </div>
-    </div>
-    <div id="results" class="results | visually-hidden">
-      <div class="results__info">
-        <p>
-          Round <span id="round-number"><!-- Show round number --></span>
-        </p>
-        <h2 id="result-title"><!-- show you win or lose --></h2>
-        <p id="result-description"><!-- show which chip wins --></p>
-      </div>
-      <div class="results__scores">
-        <p>
-          Player Score:
-          <span id="player-score" class="results__score-ponts"></span>
-        </p>
-        <p>
-          Computer Score:
-          <span id="computer-score" class="results__score-ponts"></span>
-        </p>
-      </div>
-      <button id="next-round-button" class="btn btn--white">
-        Next Round
-      </button>
-    </div>
-  </main>
-  <footer class="footer">
-    <p>Build by Snehamoy Bag</p>
-    <p>Project from The Odin Project</p>
-  </footer>
-
-  <!-- JAVASCRIPT -->
-  <script src="./index.js"></script>
-</body>
-
+  <body>
+    <!-- JAVASCRIPT -->
+    <script src="./index.js"></script>
+  </body>
 </html>
