@@ -4,49 +4,67 @@ function pascalCase(word) {
 }
 
 // get random selection
-function getRandomSelection() {
+function getComputerSelection() {
   const choices = ["rock", "paper", "scissors"];
   const randomNum = Math.floor(Math.random() * choices.length - 1) + 1;
   const randomChoice = choices[randomNum];
   return randomChoice;
 }
 
-// get player choice
-function getPlayerSelection(nthRound) {
-  const userInput = prompt(
-    `Round ${nthRound}! Type your choice: Rock, Paper or Scissors`,
-    pascalCase(getRandomSelection())
-  );
-
-  if (!userInput) {
-    return; // end round if user cancels the prompt
-  }
-  const playerSelection = userInput.trim().toLowerCase();
-  return playerSelection;
+// add styles to computer chip element based on computer choice
+function addComputerElStyles(selection, selectionEl) {
+  const chipNameEl = selectionEl.querySelector(".chip__name");
+  selectionEl.classList.add(`chip--${selection}`);
+  chipNameEl.textContent = selection;
 }
 
-// check if user typed input is valid
-function validatePlayerSelection(playerSelection) {
-  let isValid;
-  switch (playerSelection) {
-    case "rock":
-    case "paper":
-    case "scissors":
-      isValid = true;
-      break;
-    default:
-      isValid = false;
-  }
-
-  return isValid;
+// hide non-selected extra chips
+function hideExtraChips(playerSelectedEl, computerSelectedEl, allChips) {
+  allChips.forEach((chip) => {
+    if (chip !== playerSelectedEl && chip !== computerSelectedEl) {
+      chip.parentNode.classList.add("hidden");
+    }
+  });
 }
 
-// show user choice and computer choice
-function showSelections(playerSelection, computerSelection) {
-  console.log(
-    `You Chose : ${pascalCase(playerSelection)} | `,
-    `The Computer Chose : ${pascalCase(computerSelection)}`
+// add choser texts above selected chips
+function addChoserTexts(playerElWrapper, computerElWrapper) {
+  const playerTextEl = playerElWrapper.querySelector(".chip .chip__choser-txt");
+  const computerTextEl = computerElWrapper.querySelector(
+    ".chip .chip__choser-txt"
   );
+
+  playerElWrapper.addEventListener("transitionend", () => {
+    playerTextEl.textContent = "You Chose";
+    computerTextEl.textContent = "Computer Chose";
+  });
+}
+
+// animate selected chips opening after some delay
+function animateSelectedChipsOpen(playerElWrapper, computerElWrapper, board) {
+  setTimeout(() => {
+    board.classList.remove("animate-closing");
+    playerElWrapper.classList.add("animate-player-selection");
+    computerElWrapper.classList.add("animate-computer-selection");
+  }, 500 /* delay */);
+
+  addChoserTexts(playerElWrapper, computerElWrapper);
+}
+
+// show player and computer selected chips on DOM
+function showSelectedChips(playerSelectedEl, computerSelectedEl, allChips) {
+  const board = document.querySelector("#game-board");
+  const playerElWrapper = playerSelectedEl.parentNode;
+  const computerElWrapper = computerSelectedEl.parentNode;
+  // close all chip (move to center)
+  board.classList.add("animate-closing");
+
+  // when chips are finished closing (are in center)
+  playerElWrapper.addEventListener("transitionend", () => {
+    hideExtraChips(playerSelectedEl, computerSelectedEl, allChips);
+    computerElWrapper.classList.remove("hidden");
+    animateSelectedChipsOpen(playerElWrapper, computerElWrapper, board);
+  });
 }
 
 // get a rounds result
@@ -64,96 +82,34 @@ function getRoundResult(playerSelection, computerSelection) {
   }
 }
 
-// show a rounds results
-function showRoundResults(result, playerSelection, computerSelection) {
-  let message;
-
-  if (result === "win") {
-    message = `You Win! ${pascalCase(playerSelection)} beats ${pascalCase(
-      computerSelection
-    )}`;
-  } else if (result === "lose") {
-    message = `You Lose! ${pascalCase(computerSelection)} beats ${pascalCase(
-      playerSelection
-    )}`;
-  } else {
-    message = "It is a Draw!";
-  }
-
-  console.log(message);
-}
-
-// show error message
-function showError(bool) {
-  if (!bool) {
-    alert("Error: Invalid input! Please type either Rock, Paper or Scissors.");
-    console.log("Round ended Abruptly :(");
-  }
-}
-
-// play a round
-function playRound(playerSelection, computerSelection) {
-  const isPlayerSelectionValid = validatePlayerSelection(playerSelection);
-  const result = getRoundResult(playerSelection, computerSelection);
-
-  if (!isPlayerSelectionValid) {
-    showError(isPlayerSelectionValid);
-    return; // end round
-  }
-
-  showSelections(playerSelection, computerSelection);
-  showRoundResults(result, playerSelection, computerSelection);
-
-  return result;
-}
-
-// show scores of player and comouter
-function showScores(playerScore, computerScore) {
-  console.log(
-    `Your Score : ${playerScore} | `,
-    `The Computer' Score : ${computerScore}`
-  );
-}
-
-// show end game message
-function showEndGameMessage(playerScore, computerScore) {
-  let message;
-
-  if (playerScore === computerScore) {
-    message = "The Game ends in a Draw!";
-  } else if (playerScore > computerScore) {
-    message = "Congratulations! You Win the Game";
-  } else {
-    message = "You Lose! Computer Wins the Game";
-  }
-
-  console.log(message);
-}
-
-// run game with number of times
+// play a 5 round game
 function game() {
-  const numberOfRounds = 5;
-  let playerScore = 0;
-  let computerScore = 0;
+  const allChips = document.querySelectorAll(".chip");
+  const computerSelectedEl = document.querySelector("#computer-chip");
 
-  for (let round = 1; round <= numberOfRounds; round++) {
-    const playerSelection = getPlayerSelection(round);
-    const computerSelection = getRandomSelection();
-    const roundResult = playRound(playerSelection, computerSelection);
+  function playRound() {
+    // remove click event from all chips after the fitst click
+    allChips.forEach((chip) => chip.removeEventListener("click", playRound));
 
-    switch (roundResult) {
-      case "win":
-        playerScore += 1;
-        break;
-      case "lose":
-        computerScore += 1;
-        break;
-    }
+    const playerSelection = this.dataset.chip;
+    const playerSelectedEl = this;
+    const computerSelection = getComputerSelection();
+
+    playerSelectedEl.parentNode.classList.add("on-top");
+    addComputerElStyles(computerSelection, computerSelectedEl);
+
+    showSelectedChips(playerSelectedEl, computerSelectedEl, allChips);
+    // after few milisecs show winner effects with round results
+    // play next round button will animate selected chips closing
+    // while closing winner chip will be on top
+    // when selected chips are on center, remove computer
+    // hide computer chip element and remove all the its previous round styles
+    // animate open of all default chips
+    // when they are on their positon, re add click events that starts a new round
   }
 
-  showScores(playerScore, computerScore);
-  showEndGameMessage(playerScore, computerScore);
+  // add click event to all chip
+  allChips.forEach((chip) => chip.addEventListener("click", playRound));
 }
 
-// run game on page load
 game();
