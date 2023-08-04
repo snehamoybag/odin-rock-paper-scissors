@@ -11,141 +11,6 @@ function getComputerSelection() {
   return randomChoice;
 }
 
-// add styles to computer chip element based on computer choice
-function addComputerElStyles(computerSelection, computerSelectionEl) {
-  const chipNameEl = computerSelectionEl.querySelector(".chip__name");
-  computerSelectionEl.classList.add(`chip--${computerSelection}`);
-  chipNameEl.textContent = computerSelection;
-}
-
-// remove computer styles from previous round
-function removeComputerElStyles(computerSelectionEl) {
-  const chipNameEl = computerSelectionEl.querySelector(".chip__name");
-  computerSelectionEl.classList.remove(
-    "chip--rock",
-    "chip--paper",
-    "chip--scissors"
-  );
-  chipNameEl.textContent = "";
-}
-
-// hide non-selected extra chips
-function hideExtraChips(playerSelectedEl, computerSelectedEl, allChips) {
-  allChips.forEach((chip) => {
-    if (chip !== playerSelectedEl && chip !== computerSelectedEl) {
-      chip.parentNode.classList.add("hidden");
-    }
-  });
-}
-
-// regenerate extra chips
-function regenExtraChips(computerSelectedEl) {
-  const allChips = document.querySelectorAll(".chip");
-  allChips.forEach((chip) => {
-    if (chip !== computerSelectedEl) {
-      chip.parentNode.classList.remove("hidden");
-    }
-  });
-}
-
-// add choser texts above selected chips
-function addChoserTexts(playerElWrapper, computerElWrapper) {
-  const playerTextEl = playerElWrapper.querySelector(".chip__choser-txt");
-  const computerTextEl = computerElWrapper.querySelector(".chip__choser-txt");
-
-  playerElWrapper.addEventListener(
-    "transitionend",
-    () => {
-      playerTextEl.textContent = "You Chose";
-      computerTextEl.textContent = "Computer Chose";
-    },
-    { once: true }
-  );
-}
-
-// remove choser texts above selected chips
-function removeChoserTexts(playerElWrapper, computerElWrapper) {
-  const playerTextEl = playerElWrapper.querySelector(".chip__choser-txt");
-  const computerTextEl = computerElWrapper.querySelector(".chip__choser-txt");
-  playerTextEl.textContent = "";
-  computerTextEl.textContent = "";
-}
-
-// animate the opening of default chips
-function animateDefaultChipsOpen(playerElWrapper) {
-  const board = document.querySelector("#game-board");
-  setTimeout(() => {
-    board.classList.remove("animate-closing");
-  }, 500);
-  // remove on-top class after default chips are finished opening
-  playerElWrapper.addEventListener(
-    "transitionend",
-    () => {
-      playerElWrapper.classList.remove("on-top");
-    },
-    { once: true }
-  );
-}
-
-// animate selected chips opening after some delay
-function animateSelectedChipsOpen(playerElWrapper, computerElWrapper) {
-  const board = document.querySelector("#game-board");
-  setTimeout(() => {
-    board.classList.remove("animate-closing");
-    playerElWrapper.classList.add("animate-player-selection");
-    computerElWrapper.classList.add("animate-computer-selection");
-  }, 500 /* delay */);
-  // show text above chips after selected chips have finished opening
-  addChoserTexts(playerElWrapper, computerElWrapper);
-}
-
-// animate selected chips close
-function animateSelectedChipsClose(playerElWrapper, computerElWrapper) {
-  const board = document.querySelector("#game-board");
-  removeChoserTexts(playerElWrapper, computerElWrapper);
-  board.classList.add("animate-closing");
-  playerElWrapper.classList.remove("animate-player-selection");
-  computerElWrapper.classList.remove("animate-computer-selection");
-}
-
-// hide default chips and show player and computer selected chips on DOM
-function showSelectedChips(playerSelectedEl, computerSelectedEl, allChips) {
-  const board = document.querySelector("#game-board");
-  const playerElWrapper = playerSelectedEl.parentNode;
-  const computerElWrapper = computerSelectedEl.parentNode;
-  // close all chip (move to center)
-  board.classList.add("animate-closing");
-
-  // when chips are finished closing (are in center)
-  playerElWrapper.addEventListener(
-    "transitionend",
-    () => {
-      hideExtraChips(playerSelectedEl, computerSelectedEl, allChips);
-      computerElWrapper.classList.remove("hidden");
-      animateSelectedChipsOpen(playerElWrapper, computerElWrapper);
-    },
-    { once: true }
-  );
-}
-
-// hide selected chips and show default chips
-function showDefaultChips(playerSelectedEl, computerSelectedEl) {
-  const playerElWrapper = playerSelectedEl.parentNode;
-  const computerElWrapper = computerSelectedEl.parentNode;
-  animateSelectedChipsClose(playerElWrapper, computerElWrapper);
-
-  playerElWrapper.addEventListener(
-    "transitionend",
-    () => {
-      removeComputerElStyles(computerSelectedEl);
-      computerElWrapper.classList.add("hidden");
-      regenExtraChips(computerSelectedEl);
-      animateDefaultChipsOpen(playerElWrapper);
-    },
-    { once: true }
-  );
-}
-
 // get a rounds result
 function getRoundResult(playerSelection, computerSelection) {
   if (playerSelection === computerSelection) {
@@ -161,21 +26,144 @@ function getRoundResult(playerSelection, computerSelection) {
   }
 }
 
+// move all chips to center
+function closeDefaultChips() {
+  const board = document.querySelector("#game-board");
+  board.classList.add("animate-closing");
+}
+
+// open default chips / move it from center to their respective positions
+function openDefaultChips(playerSelectedEl, delay) {
+  const board = document.querySelector("#game-board");
+  setTimeout(() => board.classList.remove("animate-closing"), delay);
+
+  // when default chips are open / on their position
+  playerSelectedEl.parentNode.addEventListener(
+    "transitionend",
+    () => {
+      playerSelectedEl.parentNode.classList.remove("on-top");
+    },
+    { once: true }
+  );
+}
+
+// style computer chip element with computer choice
+function showComputerChip(selection, selectionEl) {
+  const chipNameEl = selectionEl.querySelector(".chip__name");
+
+  selectionEl.classList.add(`chip--${selection}`);
+  chipNameEl.textContent = pascalCase(selection);
+  selectionEl.parentNode.classList.remove("hidden");
+}
+
+// remove computer chip element styles from previous round
+function hideComputerChip(selectionEl) {
+  const chipNameEl = selectionEl.querySelector(".chip__name");
+
+  selectionEl.classList.remove("chip--rock", "chip--paper", "chip--scissors");
+  chipNameEl.textContent = "";
+  selectionEl.parentNode.classList.add("hidden");
+}
+
+// hide non-selected chips
+function hideExtraChips(playerSelectedEl, computerSelectedEl) {
+  const allChips = document.querySelectorAll(".chip");
+
+  allChips.forEach((chip) => {
+    if (chip !== playerSelectedEl && chip !== computerSelectedEl) {
+      chip.parentNode.classList.add("hidden");
+    }
+  });
+}
+
+// show default chips
+function showExtraChips(computerSelectedEl) {
+  const allChips = document.querySelectorAll(".chip");
+  allChips.forEach((chip) => {
+    if (chip !== computerSelectedEl) {
+      chip.parentNode.classList.remove("hidden");
+    }
+  });
+}
+
+// show selected chips
+function openSelectedChips(playerSelectedEl, computerSelectedEl, delay) {
+  const board = document.querySelector("#game-board");
+  const playerElWrapper = playerSelectedEl.parentNode;
+  const computerElWrapper = computerSelectedEl.parentNode;
+
+  setTimeout(() => {
+    playerElWrapper.classList.add("animate-player-selection");
+    computerElWrapper.classList.add("animate-computer-selection");
+    board.classList.remove("animate-closing");
+  }, delay);
+}
+
+// close selected chips
+function closeSelectedChips(playerSelectedEl, computerSelectedEl) {
+  const board = document.querySelector("#game-board");
+  playerSelectedEl.parentNode.classList.remove("animate-player-selection");
+  computerSelectedEl.parentNode.classList.remove("animate-computer-selection");
+  board.classList.add("animate-closing");
+}
+
+// add choser texts above selected chips
+function addChoserTexts(playerSelectedEl, computerSelectedEl) {
+  const playerTextEl = playerSelectedEl.querySelector(".chip__choser-txt");
+  const computerTextEl = computerSelectedEl.querySelector(".chip__choser-txt");
+
+  // when selected chips are finished opening
+  computerSelectedEl.parentNode.addEventListener(
+    "transitionend",
+    () => {
+      playerTextEl.textContent = "You Chose";
+      computerTextEl.textContent = "Computer Chose";
+    },
+    { once: true }
+  );
+}
+
+// remove choser texts above selected chips
+function removeChoserTexts(playerSelectedEl, computerSelectedEl) {
+  const playerTextEl = playerSelectedEl.querySelector(".chip__choser-txt");
+  const computerTextEl = computerSelectedEl.querySelector(".chip__choser-txt");
+
+  playerTextEl.textContent = "";
+  computerTextEl.textContent = "";
+}
+
+// clean up previous round styles
+function cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl) {
+  const resultsEl = document.querySelector("#results");
+  resultsEl.classList.add("visually-hidden");
+  removeChoserTexts(playerSelectedEl, computerSelectedEl);
+  closeSelectedChips(playerSelectedEl, computerSelectedEl);
+
+  // when selected chips are closed
+  playerSelectedEl.parentNode.addEventListener(
+    "transitionend",
+    () => {
+      const delay = 500; /* ms */
+      hideComputerChip(computerSelectedEl);
+      showExtraChips(computerSelectedEl);
+      openDefaultChips(playerSelectedEl, delay);
+    },
+    {
+      once: true,
+    }
+  );
+}
+
 // play a 5 round game
 function game() {
   const allChips = document.querySelectorAll(".chip");
-  const computerSelectedEl = document.querySelector("#computer-chip");
   const maxRound = 5;
   let nthRound = 1;
   let playerTotalScore = 0;
   let computerTotalScore = 0;
 
   // show round results
-  function showRoundResults(
-    playerSelection,
-    playerSelectedEl,
-    computerSelection
-  ) {
+  function showRoundResults(playerSelection, computerSelection, delay) {
     const resultsEl = document.querySelector("#results");
     const roundNumEl = document.querySelector("#round-number");
     const titleEl = document.querySelector("#result-title");
@@ -212,9 +200,10 @@ function game() {
 
     setTimeout(() => {
       resultsEl.classList.remove("visually-hidden");
-    }, 1500);
+    }, delay);
   }
 
+  // play a round
   function playRound() {
     // remove click event from all chips after the fitst click
     allChips.forEach((chip) => chip.removeEventListener("click", playRound));
@@ -222,19 +211,32 @@ function game() {
     const playerSelection = this.dataset.chip;
     const playerSelectedEl = this;
     const computerSelection = getComputerSelection();
+    const computerSelectedEl = document.querySelector("#computer-chip");
     const nextRoundBtn = document.querySelector("#play-next-round");
 
     playerSelectedEl.parentNode.classList.add("on-top");
-    addComputerElStyles(computerSelection, computerSelectedEl);
-    showSelectedChips(playerSelectedEl, computerSelectedEl, allChips);
-    showRoundResults(playerSelection, playerSelectedEl, computerSelection);
+    closeDefaultChips();
 
-    // add click event to start next round
+    playerSelectedEl.parentNode.addEventListener(
+      "transitionend",
+      () => {
+        const delay = 500; /* ms */
+        hideExtraChips(playerSelectedEl, computerSelectedEl);
+        showComputerChip(computerSelection, computerSelectedEl);
+        openSelectedChips(playerSelectedEl, computerSelectedEl, delay);
+        addChoserTexts(playerSelectedEl, computerSelectedEl);
+        showRoundResults(playerSelection, computerSelection, delay + 700);
+      },
+      {
+        once: true,
+      }
+    );
+
+    // add click event om play next round button
     nextRoundBtn.addEventListener("click", () => {
-      const resultsEl = document.querySelector("#results");
-      resultsEl.classList.add("visually-hidden");
       nthRound += 1;
-      showDefaultChips(playerSelectedEl, computerSelectedEl);
+      cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl);
+      // re add click event to all buttons
       allChips.forEach((chip) => chip.addEventListener("click", playRound));
     });
   }
