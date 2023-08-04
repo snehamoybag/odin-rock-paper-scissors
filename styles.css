@@ -169,6 +169,7 @@ h3 {
   white-space: nowrap;
   position: absolute;
   transform: translateY(-5.5rem);
+  pointer-events: none;
 }
 
 /* UTILITY CLASSES */
