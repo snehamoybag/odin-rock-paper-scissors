@@ -180,3 +180,7 @@ h3 {
 .hidden {
   display: none;
 }
+
+.visually-hidden {
+  visibility: hidden;
+}

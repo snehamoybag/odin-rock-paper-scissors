@@ -50,10 +50,8 @@ function regenExtraChips(computerSelectedEl) {
 
 // add choser texts above selected chips
 function addChoserTexts(playerElWrapper, computerElWrapper) {
-  const playerTextEl = playerElWrapper.querySelector(".chip .chip__choser-txt");
-  const computerTextEl = computerElWrapper.querySelector(
-    ".chip .chip__choser-txt"
-  );
+  const playerTextEl = playerElWrapper.querySelector(".chip__choser-txt");
+  const computerTextEl = computerElWrapper.querySelector(".chip__choser-txt");
 
   playerElWrapper.addEventListener(
     "transitionend",
@@ -66,9 +64,9 @@ function addChoserTexts(playerElWrapper, computerElWrapper) {
 }
 
 // remove choser texts above selected chips
-function removeChoserTexts(playerSelectedEl, computerSelectedEl) {
-  const playerTextEl = playerSelectedEl.querySelector(".chip__choser-txt");
-  const computerTextEl = computerSelectedEl.querySelector(".chip__choser-txt");
+function removeChoserTexts(playerElWrapper, computerElWrapper) {
+  const playerTextEl = playerElWrapper.querySelector(".chip__choser-txt");
+  const computerTextEl = computerElWrapper.querySelector(".chip__choser-txt");
   playerTextEl.textContent = "";
   computerTextEl.textContent = "";
 }
@@ -104,6 +102,7 @@ function animateSelectedChipsOpen(playerElWrapper, computerElWrapper) {
 // animate selected chips close
 function animateSelectedChipsClose(playerElWrapper, computerElWrapper) {
   const board = document.querySelector("#game-board");
+  removeChoserTexts(playerElWrapper, computerElWrapper);
   board.classList.add("animate-closing");
   playerElWrapper.classList.remove("animate-player-selection");
   computerElWrapper.classList.remove("animate-computer-selection");
@@ -133,7 +132,6 @@ function showSelectedChips(playerSelectedEl, computerSelectedEl, allChips) {
 function showDefaultChips(playerSelectedEl, computerSelectedEl) {
   const playerElWrapper = playerSelectedEl.parentNode;
   const computerElWrapper = computerSelectedEl.parentNode;
-  removeChoserTexts(playerSelectedEl, computerSelectedEl);
   animateSelectedChipsClose(playerElWrapper, computerElWrapper);
 
   playerElWrapper.addEventListener(
@@ -167,6 +165,55 @@ function getRoundResult(playerSelection, computerSelection) {
 function game() {
   const allChips = document.querySelectorAll(".chip");
   const computerSelectedEl = document.querySelector("#computer-chip");
+  const maxRound = 5;
+  let nthRound = 1;
+  let playerTotalScore = 0;
+  let computerTotalScore = 0;
+
+  // show round results
+  function showRoundResults(
+    playerSelection,
+    playerSelectedEl,
+    computerSelection
+  ) {
+    const resultsEl = document.querySelector("#results");
+    const roundNumEl = document.querySelector("#round-number");
+    const titleEl = document.querySelector("#result-title");
+    const descriptionEl = document.querySelector("#result-desc");
+    const playerScoreEl = document.querySelector("#player-score");
+    const computerScoreEl = document.querySelector("#computer-score");
+    const roundResult = getRoundResult(playerSelection, computerSelection);
+
+    roundNumEl.textContent = `${nthRound}/${maxRound}`;
+
+    switch (roundResult) {
+      case "win":
+        titleEl.textContent = "You Win!";
+        descriptionEl.textContent = `${pascalCase(
+          playerSelection
+        )} beats ${pascalCase(computerSelection)}`;
+        playerTotalScore += 1;
+        break;
+      case "lose":
+        titleEl.textContent = "You Lose";
+        descriptionEl.textContent = `${pascalCase(
+          computerSelection
+        )} beats ${pascalCase(playerSelection)}`;
+        computerTotalScore += 1;
+        break;
+      case "draw":
+        titleEl.textContent = "It's a Draw!";
+        descriptionEl.textContent = "Player and Computer chose the same Chip";
+        break;
+    }
+
+    playerScoreEl.textContent = playerTotalScore;
+    computerScoreEl.textContent = computerTotalScore;
+
+    setTimeout(() => {
+      resultsEl.classList.remove("visually-hidden");
+    }, 1500);
+  }
 
   function playRound() {
     // remove click event from all chips after the fitst click
@@ -179,9 +226,14 @@ function game() {
 
     playerSelectedEl.parentNode.classList.add("on-top");
     addComputerElStyles(computerSelection, computerSelectedEl);
-
     showSelectedChips(playerSelectedEl, computerSelectedEl, allChips);
+    showRoundResults(playerSelection, playerSelectedEl, computerSelection);
+
+    // add click event to start next round
     nextRoundBtn.addEventListener("click", () => {
+      const resultsEl = document.querySelector("#results");
+      resultsEl.classList.add("visually-hidden");
+      nthRound += 1;
       showDefaultChips(playerSelectedEl, computerSelectedEl);
       allChips.forEach((chip) => chip.addEventListener("click", playRound));
     });
