@@ -206,7 +206,9 @@ function game() {
   // play a round
   function playRound() {
     // remove click event from all chips after the fitst click
-    allChips.forEach((chip) => chip.removeEventListener("click", playRound));
+    allChips.forEach((chip) =>
+      chip.removeEventListener("click", playRound, { once: true })
+    );
 
     const playerSelection = this.dataset.chip;
     const playerSelectedEl = this;
@@ -233,16 +235,22 @@ function game() {
     );
 
     // add click event om play next round button
-    nextRoundBtn.addEventListener("click", () => {
-      nthRound += 1;
-      cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl);
-      // re add click event to all buttons
-      allChips.forEach((chip) => chip.addEventListener("click", playRound));
-    });
+    nextRoundBtn.addEventListener(
+      "click",
+      () => {
+        nthRound += 1;
+        cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl);
+        // re add click event to all buttons
+        allChips.forEach((chip) => chip.addEventListener("click", playRound));
+      },
+      { once: true }
+    );
   }
 
   // add click event to all chip
-  allChips.forEach((chip) => chip.addEventListener("click", playRound));
+  allChips.forEach((chip) =>
+    chip.addEventListener("click", playRound, { once: true })
+  );
 }
 
 game();
