@@ -172,6 +172,26 @@ h3 {
   pointer-events: none;
 }
 
+.end-screen__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.loading-spinner {
+  display: block;
+  width: min(15%, 100px);
+  aspect-ratio: 1/1;
+  border: 5px solid var(--clr-neutral-100);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.1);
+  animation: spin 800ms ease-in infinite;
+  position: absolute;
+}
+
 /* UTILITY CLASSES */
 .on-top {
   z-index: 5;
@@ -183,4 +203,11 @@ h3 {
 
 .visually-hidden {
   visibility: hidden;
+}
+
+/* KEYFRAMES */
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }

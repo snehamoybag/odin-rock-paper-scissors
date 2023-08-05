@@ -217,9 +217,20 @@ function game() {
 
     playerTotalScoreEl.textContent = playerTotalScore;
     computerTotalScoreEl.textContent = computerTotalScore;
-    newGameBtn.addEventListener("click", () => location.reload(), {
-      once: true,
-    });
+    newGameBtn.addEventListener(
+      "click",
+      () => {
+        const btnText = newGameBtn.querySelector(".end-screen__btn_txt");
+        const loadingSpinner = newGameBtn.querySelector(".loading-spinner");
+        // hide button text and show loading spinner
+        btnText.classList.add("hidden");
+        loadingSpinner.classList.remove("hidden");
+        location.reload();
+      },
+      {
+        once: true,
+      }
+    );
 
     if (playerTotalScore > computerTotalScore) {
       subTitleEl.textContent = "Congratulations!";
