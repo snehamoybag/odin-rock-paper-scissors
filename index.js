@@ -170,9 +170,13 @@ function game() {
     const descriptionEl = document.querySelector("#result-desc");
     const playerScoreEl = document.querySelector("#player-score");
     const computerScoreEl = document.querySelector("#computer-score");
+    const nextRoundBtn = document.querySelector("#play-next-round");
     const roundResult = getRoundResult(playerSelection, computerSelection);
 
     roundNumEl.textContent = `${nthRound}/${maxRound}`;
+    // hide next round button if it is the last round
+    if (nthRound === maxRound) nextRoundBtn.classList.add("visually-hidden");
+
     switch (roundResult) {
       case "win":
         titleEl.textContent = "You Win!";
