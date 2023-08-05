@@ -134,7 +134,7 @@ function removeChoserTexts(playerSelectedEl, computerSelectedEl) {
 
 // clean up previous round styles
 function cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl) {
-  const resultsEl = document.querySelector("#results");
+  const resultsEl = document.querySelector("#round-results");
   resultsEl.classList.add("visually-hidden");
   removeChoserTexts(playerSelectedEl, computerSelectedEl);
   closeSelectedChips(playerSelectedEl, computerSelectedEl);
@@ -164,7 +164,7 @@ function game() {
 
   // show round results
   function showRoundResults(playerSelection, computerSelection, delay) {
-    const resultsEl = document.querySelector("#results");
+    const resultsEl = document.querySelector("#round-results");
     const roundNumEl = document.querySelector("#round-number");
     const titleEl = document.querySelector("#result-title");
     const descriptionEl = document.querySelector("#result-desc");
@@ -173,7 +173,6 @@ function game() {
     const roundResult = getRoundResult(playerSelection, computerSelection);
 
     roundNumEl.textContent = `${nthRound}/${maxRound}`;
-
     switch (roundResult) {
       case "win":
         titleEl.textContent = "You Win!";
@@ -194,12 +193,42 @@ function game() {
         descriptionEl.textContent = "Player and Computer chose the same Chip";
         break;
     }
-
     playerScoreEl.textContent = playerTotalScore;
     computerScoreEl.textContent = computerTotalScore;
-
     setTimeout(() => {
       resultsEl.classList.remove("visually-hidden");
+    }, delay);
+  }
+
+  // show end screen after 5th round
+  function showEndResults(delay) {
+    const endResultsEl = document.querySelector("#end-results");
+    const subTitleEl = document.querySelector(".end-screen__subtitle");
+    const titleEl = document.querySelector(".end-screen__title");
+    const playerTotalScoreEl = document.querySelector("#player-total-score");
+    const computerTotalScoreEl = document.querySelector(
+      "#computer-total-score"
+    );
+    const newGameBtn = document.querySelector("#new-game");
+
+    playerTotalScoreEl.textContent = playerTotalScore;
+    computerTotalScoreEl.textContent = computerTotalScore;
+    newGameBtn.addEventListener("click", () => location.reload(), {
+      once: true,
+    });
+
+    if (playerTotalScore > computerTotalScore) {
+      subTitleEl.textContent = "Congratulations!";
+      titleEl.textContent = "You Win the Game!";
+    } else if (playerTotalScore < computerTotalScore) {
+      subTitleEl.textContent = "Uh oh..";
+      titleEl.textContent = "You Lose the Game";
+    } else {
+      subTitleEl.textContent = "Evenly matched!";
+      titleEl.textContent = "The Game ends in A Draw";
+    }
+    setTimeout(() => {
+      endResultsEl.classList.remove("hidden");
     }, delay);
   }
 
@@ -209,7 +238,6 @@ function game() {
     allChips.forEach((chip) =>
       chip.removeEventListener("click", playRound, { once: true })
     );
-
     const playerSelection = this.dataset.chip;
     const playerSelectedEl = this;
     const computerSelection = getComputerSelection();
@@ -218,23 +246,25 @@ function game() {
 
     playerSelectedEl.parentNode.classList.add("on-top");
     closeDefaultChips();
-
     playerSelectedEl.parentNode.addEventListener(
       "transitionend",
       () => {
-        const delay = 500; /* ms */
+        const baseDelay = 500; /* ms */
+        const roundResultDelay = baseDelay + 700;
+        const endResultDelay = roundResultDelay + 300;
         hideExtraChips(playerSelectedEl, computerSelectedEl);
         showComputerChip(computerSelection, computerSelectedEl);
-        openSelectedChips(playerSelectedEl, computerSelectedEl, delay);
+        openSelectedChips(playerSelectedEl, computerSelectedEl, baseDelay);
         addChoserTexts(playerSelectedEl, computerSelectedEl);
-        showRoundResults(playerSelection, computerSelection, delay + 700);
+        showRoundResults(playerSelection, computerSelection, roundResultDelay);
+        // show end results after last round
+        if (nthRound === maxRound) showEndResults(endResultDelay);
       },
       {
         once: true,
       }
     );
-
-    // add click event om play next round button
+    // add click event on play next round button
     nextRoundBtn.addEventListener(
       "click",
       () => {
@@ -246,7 +276,6 @@ function game() {
       { once: true }
     );
   }
-
   // add click event to all chip
   allChips.forEach((chip) =>
     chip.addEventListener("click", playRound, { once: true })
