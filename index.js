@@ -175,7 +175,7 @@ function game() {
 
     roundNumEl.textContent = `${nthRound}/${maxRound}`;
     // hide next round button if it is the last round
-    if (nthRound === maxRound) nextRoundBtn.classList.add("visually-hidden");
+    if (nthRound === maxRound) nextRoundBtn.classList.add("hidden");
 
     switch (roundResult) {
       case "win":
@@ -223,7 +223,7 @@ function game() {
         const btnText = newGameBtn.querySelector(".end-screen__btn_txt");
         const loadingSpinner = newGameBtn.querySelector(".loading-spinner");
         // hide button text and show loading spinner
-        btnText.classList.add("hidden");
+        btnText.classList.add("visually-hidden");
         loadingSpinner.classList.remove("hidden");
         location.reload();
       },
@@ -231,7 +231,6 @@ function game() {
         once: true,
       }
     );
-
     if (playerTotalScore > computerTotalScore) {
       subTitleEl.textContent = "Congratulations!";
       titleEl.textContent = "You Win the Game!";
@@ -266,7 +265,7 @@ function game() {
       () => {
         const baseDelay = 500; /* ms */
         const roundResultDelay = baseDelay + 700;
-        const endResultDelay = roundResultDelay + 300;
+        const endResultDelay = roundResultDelay + 800;
         hideExtraChips(playerSelectedEl, computerSelectedEl);
         showComputerChip(computerSelection, computerSelectedEl);
         openSelectedChips(playerSelectedEl, computerSelectedEl, baseDelay);
@@ -291,6 +290,7 @@ function game() {
       { once: true }
     );
   }
+
   // add click event to all chip
   allChips.forEach((chip) =>
     chip.addEventListener("click", playRound, { once: true })

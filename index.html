@@ -52,38 +52,38 @@
         </button>
       </div>
     </div>
-    <div id="round-results" class="results | visually-hidden">
+    <div id="round-results" class="round-results | visually-hidden">
       <div class="results__info">
-        <p>
-          Round <span id="round-number"><!-- Show round number --></span>
-        </p>
-        <h2 id="result-title"><!-- show you win or lose --></h2>
-        <p id="result-desc"><!-- show which chip wins --></p>
+        <p>Round <span id="round-number">Round 1/5</span></p>
+        <h2 id="result-title">Let's Go!</h2>
+        <p id="result-desc">Can you beat Computer?</p>
       </div>
-      <div class="results__scores">
+      <div class="round-results__scores">
         <p>
           Player Score:
-          <span id="player-score" class="results__score-ponts"></span>
+          <span id="player-score" class="round-results__score-ponts"></span>
         </p>
         <p>
           Computer Score:
-          <span id="computer-score" class="results__score-ponts"></span>
+          <span id="computer-score" class="round-results__score-ponts"></span>
         </p>
       </div>
-      <button id="play-next-round" class="btn btn--white">Next Round</button>
+      <button id="play-next-round" class="round-results__btn | btn btn--primary">
+        Next Round
+      </button>
     </div>
     <div id="end-results" class="end-screen | hidden">
-      <p class="end-screen__subtitle"><!-- conrgatulations --></p>
-      <h2 class="end-screen__title"><!-- you win --></h2>
+      <p class="end-screen__subtitle">Conrgatulations</p>
+      <h2 class="end-screen__title">You Win!</h2>
       <div class="end-screen__scores-wrapper">
         <p class="end-screen__scores">
-          Your Total Score <span id="player-total-score">0</span>
+          Your Total Score: <span id="player-total-score">0</span>
         </p>
         <p class="end-screen__scores">
-          Computer Total Score <span id="computer-total-score">0</span>
+          Computer Total Score: <span id="computer-total-score">0</span>
         </p>
       </div>
-      <button id="new-game" class="end-screen__btn">
+      <button id="new-game" class="end-screen__btn | btn btn--accent">
         <span class="end-screen__btn_txt">New Game</span>
         <span class="loading-spinner | hidden"></span>
       </button>
