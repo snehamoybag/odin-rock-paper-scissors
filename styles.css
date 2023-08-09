@@ -10,9 +10,8 @@
   --clr-secondary-400: hsl(180, 47%, 56%);
   --clr-accent-400: hsl(355, 87%, 66%);
 
-  --clr-neutral-100: hsl(0, 0%, 100%);
-  --clr-neutral-600: hsl(0, 0%, 25%);
-  --clr-neutral-700: hsl(0, 0%, 10%);
+  --clr-neutral-100: hsl(229, 0%, 100%);
+  --clr-neutral-400: hsl(229, 25%, 31%);
 
   --global-block-padding: 3em;
   --global-side-padding: 1em;
@@ -39,13 +38,13 @@ img {
 body {
   font-family: var(--ff-primary);
   /* background-color: var(--clr-neutral-200); */
-  color: var(--clr-neutral-600);
+  color: var(--clr-neutral-400);
 }
 
 h1,
 h2,
 h3 {
-  color: var(--clr-neutral-700);
+  color: var(--clr-neutral-400);
   font-weight: var(--fw-extra-bold);
 }
 
@@ -88,7 +87,6 @@ h3 {
   border: 15px solid var(--border-clr);
   border-radius: 50%;
   box-shadow: -7px 5px 10px -5px hsla(0, 0%, 0%, 0.1);
-  transition: transform 200ms ease;
   /* for inner elements */
   display: flex;
   flex-direction: column;
@@ -98,7 +96,6 @@ h3 {
 
 .chip:hover {
   box-shadow: unset;
-  transform: rotate(10deg);
 }
 
 .chip:active {
