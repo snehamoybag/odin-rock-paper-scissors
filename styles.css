@@ -94,10 +94,6 @@ h3 {
   justify-content: center;
 }
 
-.chip:hover {
-  box-shadow: unset;
-}
-
 .chip:active {
   border-width: 16px;
   box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.1) inset;
