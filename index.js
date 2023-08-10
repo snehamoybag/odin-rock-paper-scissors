@@ -132,10 +132,36 @@ function removeChoserTexts(playerSelectedEl, computerSelectedEl) {
   computerTextEl.textContent = "";
 }
 
+// add a effect to the winner chip
+function addWinnerEffs(
+  playerSelectedEl,
+  computerSelectedEl,
+  roundResult,
+  delay
+) {
+  setTimeout(() => {
+    switch (roundResult) {
+      case "win":
+        playerSelectedEl.classList.add("winner");
+        break;
+      case "lose":
+        computerSelectedEl.classList.add("winner");
+        break;
+    }
+  }, delay);
+}
+
+// remove winner effects
+function removeWinnerEffs(playerSelectedEl, computerSelectedEl) {
+  playerSelectedEl.classList.remove("winner");
+  computerSelectedEl.classList.remove("winner");
+}
+
 // clean up previous round styles
 function cleanupPreviousRoundStyles(playerSelectedEl, computerSelectedEl) {
   const resultsEl = document.querySelector("#round-results");
   resultsEl.classList.add("visually-hidden");
+  removeWinnerEffs(playerSelectedEl, computerSelectedEl);
   removeChoserTexts(playerSelectedEl, computerSelectedEl);
   closeSelectedChips(playerSelectedEl, computerSelectedEl);
 
@@ -163,7 +189,12 @@ function game() {
   let computerTotalScore = 0;
 
   // show round results
-  function showRoundResults(playerSelection, computerSelection, delay) {
+  function showRoundResults(
+    playerSelection,
+    computerSelection,
+    roundResult,
+    delay
+  ) {
     const resultsEl = document.querySelector("#round-results");
     const roundNumEl = document.querySelector("#round-number");
     const titleEl = document.querySelector("#result-title");
@@ -171,7 +202,6 @@ function game() {
     const playerScoreEl = document.querySelector("#player-score");
     const computerScoreEl = document.querySelector("#computer-score");
     const nextRoundBtn = document.querySelector("#play-next-round");
-    const roundResult = getRoundResult(playerSelection, computerSelection);
 
     roundNumEl.textContent = `${nthRound}/${maxRound}`;
     // hide next round button if it is the last round
@@ -257,6 +287,7 @@ function game() {
     const computerSelection = getComputerSelection();
     const computerSelectedEl = document.querySelector("#computer-chip");
     const nextRoundBtn = document.querySelector("#play-next-round");
+    const roundResult = getRoundResult(playerSelection, computerSelection);
 
     playerSelectedEl.parentNode.classList.add("on-top");
     closeDefaultChips();
@@ -270,7 +301,18 @@ function game() {
         showComputerChip(computerSelection, computerSelectedEl);
         openSelectedChips(playerSelectedEl, computerSelectedEl, baseDelay);
         addChoserTexts(playerSelectedEl, computerSelectedEl);
-        showRoundResults(playerSelection, computerSelection, roundResultDelay);
+        addWinnerEffs(
+          playerSelectedEl,
+          computerSelectedEl,
+          roundResult,
+          roundResultDelay
+        );
+        showRoundResults(
+          playerSelection,
+          computerSelection,
+          roundResult,
+          roundResultDelay
+        );
         // show end results after last round
         if (nthRound === maxRound) showEndResults(endResultDelay);
       },
