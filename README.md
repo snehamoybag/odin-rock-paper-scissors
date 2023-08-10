@@ -2,8 +2,12 @@
 
 This is my solution to the Odin Projects Rock-Paper-Scissors game.
 
-Currently, the game propmpts the user to type any of the valid selection, then runs and displays game mesaages on console.
+Click on any chip to make your choice and start a round.
+There are total 5 rounds in each game.
+If you have more points than Computer after 5th round, you win the game else you lose.
 
-If user types wrong selection, it throws an error and cancels the current round and procedes to next round.
+I've tried to add some animation to make the game a little bit more interactive.
 
-The Game runs for 5 rounds and at the end of the game displays player and computer score in the console.
+### Useful Resources
+
+- Learn how you can use Trigonometry on CSS to place thigs easily by watching [this video](https://youtu.be/eO33Rh3GFGk)
